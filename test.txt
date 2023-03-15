@@ -1,3 +1,7 @@
 
-    The error is occuring because the code is missing a closing parenthesis. The error is occuring on line 16, and the code could be fixed by adding a closing parenthesis to the end of the line.
+    The error is occuring because the variable msg is not defined. The variable msg is defined in the ai_debug.py file, but is not imported into the sample.py file.
+
+
+    ### Modification
+    To fix this error, the variable msg needs to be imported into the sample.py file.
 
