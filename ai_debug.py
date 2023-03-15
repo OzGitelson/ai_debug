@@ -21,7 +21,7 @@ def write_code(error, code):
         model="code-davinci-002",
         prompt=generate_code_prompt(error, code),
         temperature=0.0,
-        max_tokens=350,
+        max_tokens=1000,
         stop=first_line
     )
     # print(response)
