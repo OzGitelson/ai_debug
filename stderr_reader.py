@@ -3,7 +3,7 @@ from subprocess import Popen, PIPE, STDOUT
 import re
 import ai_debug
 
-FOV=10
+FOV=5
 
 if len(sys.argv)<3:
     print("Invalid command args")

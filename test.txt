@@ -1,7 +1,5 @@
 
-    The error is occurring on line 17 because the print function is missing a parenthesis.
+    The error is occurring because the variable age is an integer and the string "I am " is being concatenated to it.
     
     ### Modification
-    print(sum)
-
-#### 
+    print("I am " + str(age) + " years old.")
