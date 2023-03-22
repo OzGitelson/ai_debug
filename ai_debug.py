@@ -19,32 +19,55 @@ first_line = "You are a helpful AI coding assistant that follows all instruction
 
 
 def generate_code_prompt(error, code, lang):
-    return """#### {f}
-    
-    ### Language
-    {l}
-    
-    ### Error
-    {e}
+    messages=[{"role": "system", 'content':'You are an advanced AI coding assistant that follows all instructions '
+                                           'they receive. Your job is to help the user debug their code by '
+                                           'explaining the error they give you in the context of the code provided. '
+                                           'Then, offer the simplest potential modification to the existing code that could fix '
+                                           'it while changing as little as possible. If you see other problems or '
+                                           'errors in the code, explain and offer a fix for those, too. Users will '
+                                           'input in the following format:\n '
+                                           '### Language\n<language they are coding in>\n\n'
+                                           '### Error\n<error message they have received>\n\n'
+                                           '### Code\nCode snippet tht generated the error\n\n\n'
+                                           'You should respond in the following format:\n'
+                                           '### Explanation of error\n<an explanation of why the error occurred\n\n'
+                                           '### Potential modification\n<the modification you recommend>'},
+              {'role':'user', 'content':"""### Language
+              {l}
+              
+              ### Error
+              {e}
+              
+              ### Code
+              {c}""".format(l=lang, e=error, c=code)}]
 
-    ### Code
-    {c}
-
-    ### Explanation of error""".format(f=first_line, l=lang, e=error, c=code)
+    # return """#### {f}
+    #
+    # ### Language
+    # {l}
+    #
+    # ### Error
+    # {e}
+    #
+    # ### Code
+    # {c}
+    #
+    # ### Explanation of error""".format(f=first_line, l=lang, e=error, c=code)
+    return messages
 
 
 def write_code(error, code, lang):
-    response = openai.Completion.create(
-        model="code-davinci-002",
-        prompt=generate_code_prompt(error, code, lang),
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=generate_code_prompt(error, code, lang),
         temperature=0.0,
         max_tokens=350,
         stop=[first_line, '<Done>']
     )
     # print(response)
     with open('test.txt', 'w') as out:
-        out.write(response['choices'][0]['text'])
-        print("\n AI insight:\n", response['choices'][0]['text'])
+        out.write(str(response['choices']))
+        print("\n AI insight:\n", response['choices'][0]['message']['content'])
 
 
 def debug(error, code, lang):
